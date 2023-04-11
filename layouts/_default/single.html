@@ -1,18 +1,35 @@
 {{ define "main" }}
 <div class="wrapper post">
-    <main class="page-content" aria-label="Content">
-        <article>
-            <header class="header">
-                <h1 class="header-title">{{ .Title }}</h1>
-                {{ $ISO_time := dateFormat "2006-01-02T15:04:05-07:00" .Date }}
-                <div class="post-meta">
-                    <time datetime="{{ $ISO_time }}" itemprop="datePublished"> {{ .Date | time.Format ":date_medium" }} </time>
-                </div>
-            </header>
-            <div class="page-content">
-                {{ .Content }}
-            </div>
-        </article>
-    </main>
+    <main class="page-content" aria-label="Content">
+        <article>
+            <header class="header">
+                <h1 class="header-title">{{ .Title }}</h1>
+                {{ $ISO_time := dateFormat "2006-01-02T15:04:05-07:00" .Date }}
+                <div class="post-meta">
+                    <time datetime="{{ $ISO_time }}" itemprop="datePublished"> {{ .Date | time.Format ":date_medium" }} </time>
+                </div>
+            </header>
+            <div class="page-content">
+                {{ .Content }}
+            </div>
+        </article>
+    </main>
 </div>
+
+{{ if (.Params.gitment) }}
+<div id="git-comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+  var gitment = new Gitment({
+    id: '{{ .Slug }}',  // 可选, 默认为 location.href
+    owner: 'Vincebye',
+    repo: 'vincebye.github.io',
+    oauth: {
+      client_id: 'f4bce73b0b6d389eacdc',
+      client_secret: 'b94c581b307b0e7ec122a57da98af9a30fb41861 ',
+    }
+  })
+  gitment.render('git-comments')
+</script>
 {{ end }}
